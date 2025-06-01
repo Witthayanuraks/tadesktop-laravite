@@ -1,0 +1,498 @@
+* HAVID NOTED :
+
+
+Penjelasan Teknis Implementasi Sistem Buku Tamu Digital
+Arsitektur Sistem
+
+1. Komponen Backend ✅ 
+
+Database Server: SQL Server untuk menyimpan semua data dengan skema yang telah didefinisikan
+API Server: Menangani permintaan HTTP dari aplikasi frontend
+WebSocket Server: Menangani komunikasi real-time untuk notifikasi
+Service Autentikasi: Mengelola login dan otorisasi pengguna
+Service QR Code: Menghasilkan dan memverifikasi kode QR
+
+2. Komponen Frontend
+
+Halaman Admin: Untuk pengelolaan pengguna dan laporan
+Halaman Guru: Untuk mengelola janji temu dan menerima notifikasi
+Halaman Penerima Tamu: Untuk verifikasi kedatangan tamu
+Frontend WebSocket Client: Untuk menerima notifikasi real-time
+
+Alur Data & Proses Teknis
+1. Proses Autentikasi
+┌─────────┐     ┌───────────────┐     ┌────────────┐
+│ Pengguna│─────▶ Form Login    │─────▶ API Server │
+└─────────┘     └───────────────┘     └─────┬──────┘
+                                            │
+                                            ▼
+                                     ┌────────────┐
+                                     │ Validasi   │
+                                     │ Kredensial │
+                                     └─────┬──────┘
+                                           │
+                                           ▼
+┌─────────┐     ┌───────────────┐     ┌────────────┐
+│ Pengguna│◀────┤ JWT Token     │◀────┤ Database   │
+└─────────┘     └───────────────┘     └────────────┘
+2. Proses Pendaftaran Janji Temu
+┌─────────┐     ┌───────────────┐     ┌────────────┐
+│ Guru    │─────▶ Form Janji    │─────▶ API Server │
+└─────────┘     └───────────────┘     └─────┬──────┘
+                                            │
+                                            ▼
+                                     ┌────────────┐
+                                     │ Validasi   │
+                                     │ Data       │
+                                     └─────┬──────┘
+                                           │
+                                           ▼
+                                     ┌────────────┐
+                                     │ Buat/Cek   │
+                                     │ Data Tamu  │
+                                     └─────┬──────┘
+                                           │
+                                           ▼
+┌─────────┐     ┌───────────────┐     ┌─────────────┐
+│ Tamu    │◀────┤ QR Code       │◀────┤ Generate QR │
+└─────────┘     └───────────────┘     └─────────────┘
+                                           │
+                                           ▼
+                                     ┌────────────┐
+                                     │ Simpan di  │
+                                     │ Database   │
+                                     └────────────┘
+3. Proses Verifikasi Kedatangan & Notifikasi
+┌─────────┐     ┌───────────────┐     ┌────────────┐
+│ Tamu    │─────▶ Tunjukkan QR  │─────▶ Penerima   │
+└─────────┘     └───────────────┘     │ Tamu       │
+                                      └─────┬──────┘
+                                            │
+                                            ▼
+                                     ┌────────────┐
+                                     │ Scan QR    │
+                                     │ Code       │
+                                     └─────┬──────┘
+                                           │
+                                           ▼
+                                     ┌────────────┐
+                                     │ Validasi   │
+                                     │ Kode QR    │
+                                     └─────┬──────┘
+                                           │
+                                           ▼
+                                     ┌────────────┐
+                                     │ Update     │
+                                     │ Status     │
+                                     └─────┬──────┘
+                                           │
+                                           ▼
+┌─────────┐     ┌───────────────┐     ┌────────────┐
+│ Guru    │◀────┤ Notifikasi    │◀────┤ WebSocket  │
+└─────────┘     │ Real-time     │     │ Server     │
+                └───────────────┘     └────────────┘
+Implementasi Teknis Detail
+1. Struktur Database
+Menggunakan SQL Server dengan skema tabel:
+
+pengguna: Menyimpan data pengguna (admin, guru, penerima tamu)
+tamu: Menyimpan data tamu
+janji_temu: Menyimpan data janji temu, termasuk kode QR
+notifikasi: Menyimpan notifikasi untuk pengguna
+ulasan: Menyimpan umpan balik dari tamu (opsional)
+
+2. Endpoint API
+# Autentikasi
+POST /api/auth/login               # Login pengguna
+POST /api/auth/logout              # Logout pengguna
+PUT  /api/auth/change-password     # Ubah password
+
+# Pengelolaan Pengguna
+GET    /api/users                  # Daftar pengguna (admin only)
+POST   /api/users                  # Tambah pengguna baru (admin only)
+PUT    /api/users/{id}             # Update pengguna (admin only)
+DELETE /api/users/{id}             # Hapus pengguna (admin only)
+
+# Pengelolaan Tamu
+GET    /api/tamu                   # Daftar tamu
+POST   /api/tamu                   # Tambah tamu baru
+PUT    /api/tamu/{id}              # Update data tamu
+GET    /api/tamu/search?q={query}  # Cari tamu berdasarkan nama/telp
+
+# Pengelolaan Janji Temu
+GET    /api/appointments                # Daftar janji temu
+GET    /api/appointments/guru/{id}      # Janji temu per guru
+POST   /api/appointments                # Buat janji temu baru
+PUT    /api/appointments/{id}/status    # Update status janji temu
+GET    /api/appointments/qr/{kode}      # Verifikasi kode QR
+GET    /api/appointments/today          # Janji temu hari ini
+
+# Notifikasi
+GET    /api/notifications               # Daftar notifikasi pengguna
+PUT    /api/notifications/{id}/read     # Tandai notifikasi sudah dibaca
+DELETE /api/notifications/{id}          # Hapus notifikasi
+
+# Laporan
+GET    /api/reports/daily               # Laporan harian
+GET    /api/reports/weekly              # Laporan mingguan
+GET    /api/reports/monthly             # Laporan bulanan
+
+
+3. Implementasi WebSocket
+javascript// Contoh implementasi server WebSocket (Node.js dengan Socket.io)
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+
+// Simpan koneksi pengguna
+const userConnections = {};
+
+// Ketika pengguna terhubung
+io.on('connection', (socket) => {
+  // Autentikasi pengguna
+  socket.on('authenticate', (data) => {
+    // Verifikasi token JWT
+    const userId = verifyToken(data.token);
+    if (userId) {
+      // Simpan koneksi pengguna
+      userConnections[userId] = socket.id;
+      socket.userId = userId;
+    }
+  });
+
+  // Ketika pengguna terputus
+  socket.on('disconnect', () => {
+    if (socket.userId) {
+      delete userConnections[socket.userId];
+    }
+  });
+});
+
+// Fungsi untuk mengirim notifikasi ke pengguna
+function sendNotification(userId, notification) {
+  const socketId = userConnections[userId];
+  if (socketId) {
+    io.to(socketId).emit('notification', notification);
+  }
+}
+
+// Contoh penggunaan saat status janji temu berubah
+function updateAppointmentStatus(appointmentId, status) {
+  // Update status di database
+  db.updateAppointmentStatus(appointmentId, status)
+    .then(appointment => {
+      // Buat notifikasi di database
+      return db.createNotification({
+        id_pengguna: appointment.id_guru,
+        pesan: `Tamu ${appointment.nama_tamu} telah datang untuk ${appointment.keperluan}`,
+        waktu: new Date(),
+        is_read: 0
+      });
+    })
+    .then(notification => {
+      // Kirim notifikasi real-time ke guru
+      sendNotification(notification.id_pengguna, notification);
+    });
+}
+4. Implementasi QR Code
+javascript// Contoh implementasi generator QR Code
+function generateQrCode(appointmentId) {
+  // Buat payload data untuk QR code
+  const payload = {
+    id: appointmentId,
+    timestamp: new Date().getTime(),
+    // Tambahkan tanda tangan digital untuk keamanan
+    signature: generateSignature(appointmentId)
+  };
+  
+  // Konversi payload ke string JSON
+  const data = JSON.stringify(payload);
+  
+  // Generate QR code sebagai base64 image
+  return qrcode.toDataURL(data);
+}
+
+// Contoh implementasi verifikasi QR Code
+function verifyQrCode(qrData) {
+  try {
+    // Parse data QR code
+    const payload = JSON.parse(qrData);
+    
+    // Verifikasi tanda tangan digital
+    if (!verifySignature(payload.id, payload.signature)) {
+      return { valid: false, message: 'QR code tidak valid' };
+    }
+    
+    // Cari janji temu di database
+    return db.getAppointmentById(payload.id)
+      .then(appointment => {
+        if (!appointment) {
+          return { valid: false, message: 'Janji temu tidak ditemukan' };
+        }
+        
+        // Periksa tanggal
+        const today = new Date().toISOString().split('T')[0];
+        if (appointment.tanggal !== today) {
+          return { valid: false, message: 'Janji temu tidak untuk hari ini' };
+        }
+        
+        // Periksa status
+        if (appointment.status !== 'Menunggu') {
+          return { valid: false, message: 'Janji temu sudah diproses' };
+        }
+        
+        return { 
+          valid: true, 
+          appointment: appointment 
+        };
+      });
+  } catch (error) {
+    return { valid: false, message: 'Format QR code tidak valid' };
+  }
+}
+
+5. Keamanan Sistem
+
+Autentikasi:
+
+Menggunakan JWT (JSON Web Token) untuk autentikasi✅
+Password di-hash dengan bcrypt atau algoritma hash kuat lainnya✅
+Token memiliki waktu kedaluwarsa (expiry time)
+
+
+Otorisasi:
+
+Role-based access control (RBAC)
+API endpoint dilindungi berdasarkan role✅
+Validasi pada sisi server untuk setiap permintaan
+
+
+Keamanan QR Code:
+
+QR code mengandung tanda tangan digital
+Verifikasi tanda tangan saat pemindaian
+QR code memiliki waktu kedaluwarsa (opsional)
+
+
+Enkripsi Data:
+
+Komunikasi menggunakan HTTPS
+Data sensitif dienkripsi di database
+Koneksi WebSocket menggunakan WSS (WebSocket Secure)
+
+
+
+6. Skalabilitas
+Sistem dirancang untuk dapat diskalakan dengan:
+
+Load balancer untuk mendistribusikan beban
+Replikasi database untuk ketersediaan tinggi
+Caching untuk mempercepat akses data yang sering digunakan
+Arsitektur microservice untuk pemisahan concern (opsional)
+
+======================================
+
+Flow Lengkap Sistem Buku Tamu Digital Sekolah
+1. Pendaftaran Pengguna Sistem
+1.1 Pendaftaran Admin
+
+Admin utama dibuat melalui setup awal sistem
+Admin memiliki akses penuh ke semua fitur dan data
+
+1.2 Pendaftaran Guru
+
+Admin mendaftarkan guru dengan data: nama, email, dan password sementara
+Guru menerima email dengan kredensial akses
+Guru login dan mengganti password pada login pertama
+Role di database diset sebagai 'Guru'
+
+1.3 Pendaftaran Petugas Penerima Tamu
+
+Admin mendaftarkan petugas dengan data: nama, email, dan password sementara
+Petugas menerima email dengan kredensial akses
+Petugas login dan mengganti password pada login pertama
+Role di database diset sebagai 'Penerima Tamu'
+
+2. Pendaftaran Janji Temu
+2.1 Guru Mendaftarkan Tamu
+
+Guru login ke sistem
+Guru mengakses menu "Buat Janji Temu"
+Guru mengisi formulir dengan data:
+
+Nama tamu
+Nomor telepon tamu
+Keperluan pertemuan
+Tanggal dan waktu pertemuan
+
+
+Sistem memeriksa apakah tamu sudah ada di database:
+
+Jika ada, gunakan data tamu yang sudah ada
+Jika belum ada, buat data tamu baru di tabel tamu
+
+
+Sistem membuat entri baru di tabel janji_temu dengan status 'Menunggu'
+Sistem menghasilkan kode QR unik yang berisi id_janji_temu atau data terenkripsi
+Kode QR disimpan di field kode_qr di tabel janji_temu
+
+2.2 Notifikasi ke Tamu
+
+Sistem menghasilkan pesan dengan detail janji temu dan kode QR
+Pesan dikirim ke tamu melalui:
+
+WhatsApp API (jika terintegrasi)
+Email (opsional)
+Atau guru dapat mendownload QR code untuk dikirim secara manual
+
+
+
+3. Kedatangan Tamu
+3.1 Verifikasi Kedatangan
+
+Tamu datang ke sekolah dan menuju meja resepsionis/penerima tamu
+Tamu menunjukkan kode QR dari janji temu
+Penerima tamu login ke sistem dengan akun 'Penerima Tamu'
+Penerima tamu memindai kode QR menggunakan:
+
+Kamera webcam
+Scanner QR khusus yang terhubung ke sistem
+
+3.2 Proses Verifikasi
+
+Sistem mencari kode QR di tabel janji_temu
+Sistem melakukan validasi:
+
+Jika kode QR valid dan ditemukan
+Jika tanggal sesuai dengan hari ini
+Jika status masih 'Menunggu'
+
+Sistem memeriksa waktu kedatangan:
+
+Jika sesuai jadwal: Status diupdate menjadi 'Selesai'
+Jika terlambat: Status diupdate menjadi 'Telat'
+
+3.3 Notifikasi untuk Guru
+
+Saat status berubah, sistem membuat entri baru di tabel notifikasi:
+
+id_pengguna = id guru dari janji temu
+pesan = "Tamu [nama tamu] telah datang untuk [keperluan]"
+waktu = waktu saat ini
+is_read = 0 (belum dibaca)
+
+
+WebSocket server mengirim notifikasi real-time ke guru bersangkutan
+Notifikasi muncul di dashboard guru tanpa perlu refresh halaman
+
+4. Respon Guru
+4.1 Guru Menerima Notifikasi
+
+Guru melihat notifikasi pop-up di dashboard
+Notifikasi menampilkan:
+
+Nama tamu
+Keperluan kunjungan
+Waktu kedatangan
+
+
+
+4.2 Guru Menemui Tamu
+
+Guru menuju ke area resepsionis untuk menemui tamu
+Guru dapat menandai notifikasi sebagai 'dibaca' di sistemnya
+
+Sistem update is_read = 1 di tabel notifikasi
+
+
+
+5. Pelacakan Status dan Pelaporan
+5.1 Pemantauan Real-time
+
+Admin dan penerima tamu dapat melihat dashboard dengan:
+
+Jumlah tamu hari ini
+Status janji temu (Menunggu, Selesai, Telat)
+Guru yang memiliki janji temu terbanyak
+
+
+
+5.2 Pelaporan Otomatis
+
+Sistem menghasilkan laporan harian/mingguan/bulanan
+Laporan berisi:
+
+Jumlah kunjungan
+Persentase ketepatan waktu
+Guru dengan janji temu terbanyak
+Waktu tunggu rata-rata
+
+
+
+6. Umpan Balik (Opsional)
+6.1 Pengumpulan Ulasan
+
+Setelah pertemuan, sistem dapat mengirim tautan untuk ulasan
+Tamu mengisi formulir ulasan dengan:
+
+Rating (1-5 bintang)
+Komentar (opsional)
+
+
+Data ulasan disimpan di tabel ulasan
+
+6.2 Analisis Ulasan
+
+Admin dapat melihat laporan ulasan
+Sistem menghitung rating rata-rata per guru
+Komentar dapat ditinjau untuk perbaikan layanan
+
+7. Pemeliharaan Sistem
+7.1 Pembersihan Data
+
+Data janji temu lama diarsipkan secara berkala
+Notifikasi yang sudah dibaca dan berusia lebih dari 30 hari dapat dihapus
+
+7.2 Backup Database
+
+Backup otomatis harian untuk data sistem
+Riwayat backup disimpan minimal 30 hari
+
+======================================
+
+
+
+* Nasya MSG :
+✅ done
+[?] what
+[...] progress
+
+
+- tidak perlu tabel kalender karena bisa diambil lewat tanggal janji temu ✅
+- untuk notifikasi guru diambil dari janji temu ✅
+- laporan kunjungan diambil dari janji temu ✅
+- qr diambil dari tamu [?]
+
+
+
+ - tabel db cuma 3 : pengguna, tamu, janji temu ✅ 
+- di tamu ditambah kode qr dan password
+- di janji temu ditambah status(belum, menunggu, sedang berlangsung, selesai)
+- alurnya
+guru mendaftarkan tamu - tdk ada notifikasi di penerima tamu untuk konfirmasi karena tamu sudah setuju untuk bertemu sebelumnya di wa(jd g perlu fitur ini) - kode qr dibuat dan dikirim ke no telp tamu - waktu datang ke sekolah tamu menunjukkan kode qr ke penerima tamu - setelah discan - muncul notif di guru bahwa tamu sudah datang - guru ke loby untuk menggiring tamu - tamu kembali ke loby scan qr utk ulasan
+
+- tamu bisa login menggunakan telp = untuk mengetahui status dari janji temu nya 
+- namun tamu tidak bisa mendaftarkan sendiri jadi harus berkomunikasi lewat wa
+- pertemuan bisa dijadwalkan 2 bulan sebelumnya
+- fitur yg dihilangkan : notifikasi di penerima tamu setelah guru mendaftarkan tamu
+- klo misal tamu tiba2 datang, penerima tamu yang mendaftarkan lalu lanjut scan qr dll
+
+
+
+```
+sebenernya td ada banyak tabel kyk qr, kalender, pengajuan, kunjungan, notifikasi. tp katae b dian itu bisa ambil informasi dari tabel-tabel yg ada itu, kyk itu udah mencakup keseluruhannya
+td katae e tamu e cm login pke no telp sm password. tujuannya cm buat liat status janji temunya termasuk apa (belum, menunggu, sedang berlangsung, selesai)
+
+iya fitur e sama, cm yg diilangin bagian notifikasi penerima tamu yg muncul setelah guru buat janji temu (yg konfim itu). td katae kek g masuk akal gt kan tamu udh setuju buat janji, nah oenerima tamu gada hak buat ga konfim
+```
+
+

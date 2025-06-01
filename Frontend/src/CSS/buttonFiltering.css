@@ -1,0 +1,29 @@
+.btn-filtering {
+  width: 30%;
+  justify-self: end;
+  background-color: rgb(176, 176, 176);
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+  border: none;
+}
+.btn-filtering i {
+  margin-left: 0.4rem;
+}
+.container-filtering {
+  position: absolute;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 0.5rem;
+  background-color: white;
+  box-shadow: -1px 1px 19px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: -1px 1px 19px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -1px 1px 19px 0px rgba(0, 0, 0, 0.75);
+  display: flex;
+}
+.filtering {
+    margin-right: .3rem;
+}
+.filtering p{
+    margin-bottom: .3rem;
+}

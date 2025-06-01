@@ -1,0 +1,39 @@
+.profile-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.profile-icon {
+  background-color: #eee;
+  padding: 10px;
+  border-radius: 50%;
+  font-size: 20px;
+  user-select: none;
+}
+
+.profile-menu {
+  position: absolute;
+  top: 20px;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 8px;
+  z-index: 10;
+}
+
+.logout-button {
+  background-color: #de4b39;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #c13e2c;
+}
