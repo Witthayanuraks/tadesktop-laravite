@@ -1,0 +1,107 @@
+[2025-05-27 16:02:34] local.INFO: 6281908858183  
+[2025-05-27 16:02:34] local.INFO: http://localhost:3001/api/wa/send-link  
+[2025-05-27 16:02:34] local.INFO: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /api/wa/send-link</pre>
+</body>
+</html>
+  
+[2025-05-27 16:04:36] local.INFO: 6281908858183  
+[2025-05-27 16:04:36] local.INFO: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /api/wa/send-link</pre>
+</body>
+</html>
+  
+[2025-05-27 16:07:37] local.INFO: 6281908858183  
+[2025-05-27 16:07:45] local.INFO: {"status":"message_sent"}  
+[2025-05-27 16:08:06] local.INFO: 6281908858183  
+[2025-05-27 16:08:09] local.INFO: {"status":"message_sent"}  
+[2025-05-27 18:25:04] local.ERROR: SQLSTATE[42S01]: Base table or view already exists: 1050 Table 'tamu' already exists (Connection: mysql, SQL: create table `tamu` (`id` bigint unsigned not null auto_increment primary key, `nama` varchar(255) not null, `telepon` varchar(255) not null, `password` varchar(255) not null, `created_at` timestamp null, `updated_at` timestamp null) default character set utf8mb4 collate 'utf8mb4_unicode_ci') {"exception":"[object] (Illuminate\\Database\\QueryException(code: 42S01): SQLSTATE[42S01]: Base table or view already exists: 1050 Table 'tamu' already exists (Connection: mysql, SQL: create table `tamu` (`id` bigint unsigned not null auto_increment primary key, `nama` varchar(255) not null, `telepon` varchar(255) not null, `password` varchar(255) not null, `created_at` timestamp null, `updated_at` timestamp null) default character set utf8mb4 collate 'utf8mb4_unicode_ci') at C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:825)
+[stacktrace]
+#0 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(779): Illuminate\\Database\\Connection->runQueryCallback('create table `t...', Array, Object(Closure))
+#1 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(560): Illuminate\\Database\\Connection->run('create table `t...', Array, Object(Closure))
+#2 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Schema\\Blueprint.php(118): Illuminate\\Database\\Connection->statement('create table `t...')
+#3 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Schema\\Builder.php(564): Illuminate\\Database\\Schema\\Blueprint->build(Object(Illuminate\\Database\\MySqlConnection), Object(Illuminate\\Database\\Schema\\Grammars\\MySqlGrammar))
+#4 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Schema\\Builder.php(418): Illuminate\\Database\\Schema\\Builder->build(Object(Illuminate\\Database\\Schema\\Blueprint))
+#5 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Facades\\Facade.php(361): Illuminate\\Database\\Schema\\Builder->create('tamu', Object(Closure))
+#6 C:\\laragon\\www\\backend Buku Tamu\\database\\migrations\\2025_05_11_044610_create_tamus_table.php(14): Illuminate\\Support\\Facades\\Facade::__callStatic('create', Array)
+#7 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(476): Illuminate\\Database\\Migrations\\Migration@anonymous->up()
+#8 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(401): Illuminate\\Database\\Migrations\\Migrator->runMethod(Object(Illuminate\\Database\\MySqlConnection), Object(Illuminate\\Database\\Migrations\\Migration@anonymous), 'up')
+#9 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(410): Illuminate\\Database\\Migrations\\Migrator->Illuminate\\Database\\Migrations\\{closure}()
+#10 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(213): Illuminate\\Database\\Migrations\\Migrator->runMigration(Object(Illuminate\\Database\\Migrations\\Migration@anonymous), 'up')
+#11 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\View\\Components\\Task.php(40): Illuminate\\Database\\Migrations\\Migrator->Illuminate\\Database\\Migrations\\{closure}()
+#12 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(737): Illuminate\\Console\\View\\Components\\Task->render('2025_05_11_0446...', Object(Closure))
+#13 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(213): Illuminate\\Database\\Migrations\\Migrator->write('Illuminate\\\\Cons...', '2025_05_11_0446...', Object(Closure))
+#14 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(180): Illuminate\\Database\\Migrations\\Migrator->runUp('C:\\\\laragon\\\\www\\\\...', 1, false)
+#15 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(123): Illuminate\\Database\\Migrations\\Migrator->runPending(Array, Array)
+#16 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\MigrateCommand.php(116): Illuminate\\Database\\Migrations\\Migrator->run(Array, Array)
+#17 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(616): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->Illuminate\\Database\\Console\\Migrations\\{closure}()
+#18 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\MigrateCommand.php(109): Illuminate\\Database\\Migrations\\Migrator->usingConnection(NULL, Object(Closure))
+#19 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\MigrateCommand.php(88): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->runMigrations()
+#20 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->handle()
+#21 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(43): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#22 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(95): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#23 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
+#24 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(694): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
+#25 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(213): Illuminate\\Container\\Container->call(Array)
+#26 C:\\laragon\\www\\backend Buku Tamu\\vendor\\symfony\\console\\Command\\Command.php(279): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#27 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(182): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#28 C:\\laragon\\www\\backend Buku Tamu\\vendor\\symfony\\console\\Application.php(1094): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#29 C:\\laragon\\www\\backend Buku Tamu\\vendor\\symfony\\console\\Application.php(342): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Database\\Console\\Migrations\\MigrateCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#30 C:\\laragon\\www\\backend Buku Tamu\\vendor\\symfony\\console\\Application.php(193): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#31 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(198): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#32 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1205): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#33 C:\\laragon\\www\\backend Buku Tamu\\artisan(13): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))
+#34 {main}
+
+[previous exception] [object] (PDOException(code: 42S01): SQLSTATE[42S01]: Base table or view already exists: 1050 Table 'tamu' already exists at C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:571)
+[stacktrace]
+#0 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(571): PDOStatement->execute()
+#1 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(812): Illuminate\\Database\\Connection->Illuminate\\Database\\{closure}('create table `t...', Array)
+#2 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(779): Illuminate\\Database\\Connection->runQueryCallback('create table `t...', Array, Object(Closure))
+#3 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(560): Illuminate\\Database\\Connection->run('create table `t...', Array, Object(Closure))
+#4 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Schema\\Blueprint.php(118): Illuminate\\Database\\Connection->statement('create table `t...')
+#5 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Schema\\Builder.php(564): Illuminate\\Database\\Schema\\Blueprint->build(Object(Illuminate\\Database\\MySqlConnection), Object(Illuminate\\Database\\Schema\\Grammars\\MySqlGrammar))
+#6 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Schema\\Builder.php(418): Illuminate\\Database\\Schema\\Builder->build(Object(Illuminate\\Database\\Schema\\Blueprint))
+#7 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Facades\\Facade.php(361): Illuminate\\Database\\Schema\\Builder->create('tamu', Object(Closure))
+#8 C:\\laragon\\www\\backend Buku Tamu\\database\\migrations\\2025_05_11_044610_create_tamus_table.php(14): Illuminate\\Support\\Facades\\Facade::__callStatic('create', Array)
+#9 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(476): Illuminate\\Database\\Migrations\\Migration@anonymous->up()
+#10 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(401): Illuminate\\Database\\Migrations\\Migrator->runMethod(Object(Illuminate\\Database\\MySqlConnection), Object(Illuminate\\Database\\Migrations\\Migration@anonymous), 'up')
+#11 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(410): Illuminate\\Database\\Migrations\\Migrator->Illuminate\\Database\\Migrations\\{closure}()
+#12 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(213): Illuminate\\Database\\Migrations\\Migrator->runMigration(Object(Illuminate\\Database\\Migrations\\Migration@anonymous), 'up')
+#13 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\View\\Components\\Task.php(40): Illuminate\\Database\\Migrations\\Migrator->Illuminate\\Database\\Migrations\\{closure}()
+#14 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(737): Illuminate\\Console\\View\\Components\\Task->render('2025_05_11_0446...', Object(Closure))
+#15 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(213): Illuminate\\Database\\Migrations\\Migrator->write('Illuminate\\\\Cons...', '2025_05_11_0446...', Object(Closure))
+#16 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(180): Illuminate\\Database\\Migrations\\Migrator->runUp('C:\\\\laragon\\\\www\\\\...', 1, false)
+#17 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(123): Illuminate\\Database\\Migrations\\Migrator->runPending(Array, Array)
+#18 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\MigrateCommand.php(116): Illuminate\\Database\\Migrations\\Migrator->run(Array, Array)
+#19 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(616): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->Illuminate\\Database\\Console\\Migrations\\{closure}()
+#20 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\MigrateCommand.php(109): Illuminate\\Database\\Migrations\\Migrator->usingConnection(NULL, Object(Closure))
+#21 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\MigrateCommand.php(88): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->runMigrations()
+#22 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->handle()
+#23 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(43): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#24 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(95): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#25 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
+#26 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(694): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
+#27 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(213): Illuminate\\Container\\Container->call(Array)
+#28 C:\\laragon\\www\\backend Buku Tamu\\vendor\\symfony\\console\\Command\\Command.php(279): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#29 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(182): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#30 C:\\laragon\\www\\backend Buku Tamu\\vendor\\symfony\\console\\Application.php(1094): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#31 C:\\laragon\\www\\backend Buku Tamu\\vendor\\symfony\\console\\Application.php(342): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Database\\Console\\Migrations\\MigrateCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#32 C:\\laragon\\www\\backend Buku Tamu\\vendor\\symfony\\console\\Application.php(193): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#33 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(198): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#34 C:\\laragon\\www\\backend Buku Tamu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1205): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#35 C:\\laragon\\www\\backend Buku Tamu\\artisan(13): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))
+#36 {main}
+"} 
