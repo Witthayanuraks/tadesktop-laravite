@@ -36,7 +36,7 @@ export default function DashboardAdmin() {
           <Header />
           <StatistikData />
           <BarChart />
-          <Pengguna />
+          {/* <Pengguna /> */}
         </div>
       </main>
     </div>
