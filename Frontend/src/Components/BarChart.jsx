@@ -42,7 +42,7 @@ export default function BarChart() {
       {
         label: 'Jumlah Tamu',
         data: jumlahData,
-        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+        backgroundColor: 'rgba(237, 134, 16, 0.88)',
         borderRadius: 8,
         barThickness: 40,
       },
