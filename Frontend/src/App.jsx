@@ -107,6 +107,7 @@ import DetailPengguna from "./Page/Admin/DetailPengguna";
 import TambahPengguna from "./Page/Admin/TambahPengguna";
 import LoginTamu from "./Page/Tamu/LoginTamu";
 import DashboardTamu from "./Page/Tamu/DashboardTamu";
+import Pengguna from "./Components/Admin/Pengguna";
 
 function App() {
   return (
@@ -259,6 +260,16 @@ function App() {
                 </Admin>
               </NoToken>
             }
+          />
+          < Route 
+          path="/pengguna"
+          element={
+            <NoToken>
+            <Admin>
+            <Pengguna />
+            </Admin>
+            </NoToken>
+          }
           />
           {/* Tamu */}
           <Route
