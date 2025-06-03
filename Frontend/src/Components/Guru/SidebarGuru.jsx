@@ -27,7 +27,7 @@ export default function SidebarGuru({ show, onClose }) {
         </button>
 
         {/* Info Guru */}
-        <div className="mb-8 p-4 bg-[#1e4a6a] rounded-lg">
+        <div className="mb-8 p-4 bg-[#1e4a6a] rounded-lg mt-7">
           <h2 className="text-lg font-semibold">Selamat Datang,</h2>
           <h2 className="text-xl font-bold mb-2">{getName()}</h2>
           <p className="text-sm opacity-80">

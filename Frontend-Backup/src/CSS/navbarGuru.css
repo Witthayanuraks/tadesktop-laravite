@@ -1,0 +1,24 @@
+.info-guru {
+  color: white;
+  text-align: start;
+}
+.fa-user {
+  color: white;
+  border-radius: 50%;
+  border: 2px solid white;
+  padding: 0.4rem;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+}
+.container-navbar-guru {
+  width: 100%;
+  padding: 0.2rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  background-color: #f37b2a;
+  z-index: 999;
+}

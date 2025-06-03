@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifikasi</title>
+    <!-- Link Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #FF894E; /* Warna oranye */
+            padding: 3px 7px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 16px;
+        }
+
+        .profile-icon img {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        section.notifications {
+            margin-top: 20px;
+            padding: 20px;
+        }
+
+        .notification {
+            background-color: white;
+            border: 1px solid #ddd;
+            margin-bottom: 15px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            border-radius: 8px;
+        }
+
+        .notification-icon img {
+            width: 40px;
+            height: 40px;
+            margin-right: 15px;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-content p {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .notification-time {
+            display: block;
+            margin-top: 5px;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">Notifikasi</div>
+        <nav>
+            <a href="#">Beranda</a>
+            <a href="#">Isi Jadwal</a>
+            <a href="#">Notifikasi</a>
+            <div class="profile-icon">
+                <img src="profile.png" alt="Profil">
+            </div>            
+        </nav>
+    </header>
+
+    <section class="notifications">
+        <!-- Notifikasi 1 -->
+        <div class="notification">
+            <div class="notification-icon">
+                <img src="mail.png" alt="Mail Icon">
+            </div>
+            <div class="notification-content">
+                <p><strong>Nama Soleh</strong> Telah Datang Ke Sekolah</p>
+                <span class="notification-time">10:00, 10 Mei 2025</span>
+            </div>
+        </div>
+
+        <!-- Salinan lainnya tetap sama -->
+        <div class="notification">
+            <div class="notification-icon">
+                <img src="mail.png" alt="Mail Icon">
+            </div>
+            <div class="notification-content">
+                <p><strong>Nama Soleh</strong> Telah Datang Ke Sekolah</p>
+                <span class="notification-time">10:00, 10 Mei 2025</span>
+            </div>
+        </div>
+
+        <div class="notification">
+            <div class="notification-icon">
+                <img src="mail.png" alt="Mail Icon">
+            </div>
+            <div class="notification-content">
+                <p><strong>Nama Soleh</strong> Telah Datang Ke Sekolah</p>
+                <span class="notification-time">10:00, 10 Mei 2025</span>
+            </div>
+        </div>
+
+        <div class="notification">
+            <div class="notification-icon">
+                <img src="mail.png" alt="Mail Icon">
+            </div>
+            <div class="notification-content">
+                <p><strong>Nama Soleh</strong> Telah Datang Ke Sekolah</p>
+                <span class="notification-time">10:00, 10 Mei 2025</span>
+            </div>
+        </div>
+
+        <div class="notification">
+            <div class="notification-icon">
+                <img src="mail.png" alt="Mail Icon">
+            </div>
+            <div class="notification-content">
+                <p><strong>Nama Soleh</strong> Telah Datang Ke Sekolah</p>
+                <span class="notification-time">10:00, 10 Mei 2025</span>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

@@ -1,0 +1,279 @@
+.container-calender {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem;
+  gap: 2rem;
+  margin-top: 4rem;
+}
+
+.datepicker {
+  width: 100%;
+  max-width: 350px;
+  background-color: var(--c-bg-tertiary);
+  border-radius: 10px;
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2), 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+}
+
+.datepicker-top {
+  margin-bottom: 1rem;
+}
+
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  margin-top: -0.5rem;
+}
+
+.tag {
+  margin-right: 0.5rem;
+  margin-top: 0.5rem;
+  border: 0;
+  background-color: var(--c-bg-secondary);
+  border-radius: 10px;
+  padding: 0.5em 0.75em;
+  font-weight: 600;
+}
+
+.month-selector {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background-color: #fff;
+  border-radius: 12px;
+  width: 2.5rem;
+  height: 2.5rem;
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.25), 0 0 10px 0 rgba(0, 0, 0, 0.15);
+}
+
+.month-name {
+  font-weight: 600;
+}
+
+.datepicker-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-row-gap: 1rem;
+}
+
+.day,
+.date {
+  justify-self: center;
+}
+
+.day {
+  color: var(--c-text-secondary);
+  font-size: 0.875em;
+  font-weight: 500;
+  justify-self: center;
+}
+
+.date {
+  border: 0;
+  padding: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-weight: 600;
+  border: 2px solid transparent;
+  background-color: transparent;
+  cursor: pointer;
+}
+.date:focus {
+  outline: 0;
+  color: var(--c-theme-primary);
+  border: 2px solid var(--c-theme-primary-accent);
+}
+
+.faded {
+  color: var(--c-text-secondary);
+}
+
+.current-day {
+  color: #fff;
+  border-color: var(--c-theme-primary);
+  background-color: var(--c-theme-primary);
+}
+.current-day:focus {
+  background-color: var(--c-theme-primary-accent);
+}
+.tamu-day {
+  background-color: #23e4a094;
+}
+
+/* Gaya umum untuk tabel tamu */
+.guest-table {
+  margin-top: 40px;
+  font-family: "Inter", sans-serif;
+  padding: 0 20px;
+}
+
+.guest-table h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.guest-table table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.guest-table thead {
+  background-color: #f0f2f5;
+}
+
+.guest-table th,
+.guest-table td {
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 14px;
+  border-bottom: 1px solid #e6e6e6;
+  color: #444;
+}
+
+.guest-table th {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.guest-table tbody tr:hover {
+  background-color: #f9fcff;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.guest-table td.status {
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.guest-table .status-approved {
+  color: #27ae60;
+}
+
+.guest-table .status-pending {
+  color: #e67e22;
+}
+
+.guest-table .status-declined {
+  color: #c0392b;
+}
+
+.form-tamu {
+  background-color: #ffffff;
+  border-radius: 15px;
+  padding: 2rem;
+  width: 300px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+}
+
+.form-tamu h3 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.3rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.form-group textarea {
+  resize: none;
+  height: 60px;
+}
+
+.submit-btn {
+  display: block;
+  width: 100%;
+  padding: 0.7rem;
+  background-color: transparent;
+  color: black;
+  font-weight: bold;
+  border: 2px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: black;
+  color: white;
+}
+
+.container-daftar-tamu {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.daftar-tamu {
+  background-color: rgb(231, 231, 231);
+  padding: 0.8rem;
+  border-radius: 15px;
+  text-align: start;
+  margin-bottom: 0.5rem;
+}
+.daftar-tamu p:nth-child(1) {
+  text-align: center;
+  color: rgb(133, 133, 133);
+}
+.bulan {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  width: 50%;
+  gap: 10px;
+}
+.bulan select,.bulan input {
+  padding: .4rem .7rem;
+  border-radius: 15px;
+  border: none;
+}
+
+.btns-export {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 25%;
+  margin: 1rem auto;
+}
+.btn-export {
+  padding: .4rem .7rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}

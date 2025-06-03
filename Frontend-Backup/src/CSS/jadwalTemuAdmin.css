@@ -1,0 +1,68 @@
+.container-admin {
+  margin: 6rem auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.guest-table {
+  margin-top: 40px;
+  font-family: "Inter", sans-serif;
+  padding: 0 20px;
+}
+
+.guest-table h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: white;
+}
+
+.guest-table table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.guest-table thead {
+  background-color: #f0f2f5;
+}
+
+.guest-table th,
+.guest-table td {
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 14px;
+  border-bottom: 1px solid #e6e6e6;
+  color: #444;
+}
+
+.guest-table th {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.guest-table tbody tr:hover {
+  background-color: #f9fcff;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.guest-table td.status {
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.guest-table .status-approved {
+  color: #27ae60;
+}
+
+.guest-table .status-pending {
+  color: #e67e22;
+}
+
+.guest-table .status-declined {
+  color: #c0392b;
+}

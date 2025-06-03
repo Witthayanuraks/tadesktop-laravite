@@ -1,0 +1,16 @@
+.header-table {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+.btn-tambah {
+  width: 40%;
+  border: none;
+  border-radius: 5px;
+  font-weight: 700;
+  background-color: rgb(24, 63, 85);
+  color: white;
+  cursor: pointer;
+  justify-self: end;
+}

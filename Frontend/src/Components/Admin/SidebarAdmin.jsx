@@ -8,6 +8,7 @@ import {
   AlignJustify,
   Users,
   DoorClosed,
+  ChevronLeft
 } from "lucide-react";
 
 export default function SidebarAdmin({ show, onClose }) {
@@ -24,9 +25,10 @@ export default function SidebarAdmin({ show, onClose }) {
         {/* Tombol Close */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-300 hover:text-white"
+          className="absolute top-4 right-4 text-gray-300 hover:text-white cursor-pointer"
         >
-          <X className="w-5 h-5" />
+          {/* <X className="w-5 h-5" /> */}
+          <ChevronLeft className="w-5 h-5" />
         </button>
 
         {/* Logo */}

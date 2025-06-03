@@ -4,6 +4,7 @@ import Header from "../../Components/Admin/HeaderAdmin";
 import StatistikData from "../../Components/Admin/StatistikData";
 import BarChart from "../../Components/BarChart";
 import Pengguna from "../../Components/Admin/Pengguna";
+import { ChevronRight } from "lucide-react";
 
 export default function DashboardAdmin() {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -13,13 +14,14 @@ export default function DashboardAdmin() {
       {/* Tombol buka sidebar */}
       <button
         onClick={() => setShowSidebar(!showSidebar)}
-        className="fixed top-4 left-4 z-50 w-12 h-12 bg-white rounded-full shadow-md flex items-center justify-center border border-gray-200 hover:scale-105 transition-transform"
+        className="fixed top-4 left-4 z-50 w-12 h-12 bg-white rounded-full shadow-md flex items-center justify-center border border-gray-200 hover:scale-105 transition-transform cursor-pointer"
       >
-        <img
+        <ChevronRight />
+        {/* <img
           src="https://smkn2-singosari.sch.id/wp-content/uploads/2021/10/logo.png"
           alt="logo"
           className="w-8 h-8 object-contain"
-        />
+        /> */}
       </button>
 
       {/* Sidebar */}
