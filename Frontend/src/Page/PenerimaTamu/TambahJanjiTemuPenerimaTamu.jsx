@@ -1,4 +1,4 @@
-import SidebarPenerimaTamu from "../../Components/PenerimaTamu/SidebarPenerimaTamu.";
+import SidebarPenerimaTamu from "../../Components/PenerimaTamu/SidebarPenerimaTamu";
 import { useEffect, useState } from "react";
 import Kalender from "../../Components/Guru/Kalender";
 import { apiAuth } from "../../api/baseAPI";

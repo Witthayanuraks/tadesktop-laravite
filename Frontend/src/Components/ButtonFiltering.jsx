@@ -38,7 +38,7 @@ export default function ButtonFiltering({
     <div
       className="relative inline-block"
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseLeave={() => setTimeout(() => { setIsHovered(false) }, 400) }
     >
       <button className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded transition">
         <Filter className="w-4 h-4" />
@@ -46,7 +46,11 @@ export default function ButtonFiltering({
       </button>
 
       {isHovered && (
-        <div className="absolute right-0 mt-2 w-64 bg-white border shadow-lg rounded-md p-4 z-50 space-y-4">
+        <div
+          className="absolute right-0 mt-2 w-64 bg-white border shadow-lg rounded-md p-4 z-50 space-y-4"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setTimeout(() => { setIsHovered(false) }, 400) }
+        >
           {filterBy.includes("status") && (
             <div className="space-y-1">
               <label htmlFor="fil-status" className="text-sm font-medium text-gray-700">

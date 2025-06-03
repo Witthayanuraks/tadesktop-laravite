@@ -1,0 +1,23 @@
+.buttons-export {
+    position: relative;
+    width: 40%;
+    cursor: default;
+    background-color: rgb(235, 235, 235);
+    line-height: 200%;
+    border-radius: 5px;
+    padding: 0 .3rem;
+}
+.container-export {
+    position: absolute;
+    display: flex;
+    width: 210px;
+    justify-content: space-between;
+    border: 1px solid;
+    padding: .4rem;
+    background-color: white;
+    border-radius: 5px;
+}
+.container-export button {
+    background-color: grey;
+    color: white;
+}

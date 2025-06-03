@@ -1,5 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 @import "tailwindcss";
+
+/*
+  Use Default Tailwind Rule Theme v4.#
+  Docs: https://tailwindcss.com/docs/theme#customizing-your-theme
+*/
+:root {
+  --f-poppins: "Poppins", sans-serif;
+  --f-inter: "Inter", sans-serif;
+  --f-outfit: "Outfit", sans-serif;
+  --c-japanese-indigo: #183F55;
+  --c-japanese-indigo-primary: #255773;
+  --c-coral: #FF894E;
+  --c-coral-primary: #DB6537;
+  --c-white: #FFFFFF;
+}
+
+@theme {
+  --font-poppins: var(--f-poppins);
+  --font-inter: var(--f-inter);
+  --font-outfit: var(--f-outfit);
+  --color-japanese-indigo-primary: var(--c-japanese-indigo-primary);
+  --color-japanese-indigo: var(--c-japanese-indigo);
+  --color-coral: var(--c-coral);
+  --color-coral-primary: var(--c-coral-primary);
+  --color-white: var(--c-white);
+}
+
+.disable-animation-trigger {
+  transition: none !important;
+}
+.disable-animation-trigger * {
+  transition: none !important;
+}
+/* --color-theme-primary: oklch(0.5477 0.2153 251.37);
+--color-theme-primary-accent: oklch(0.9122 0.0709 70.56);
+--color-bg-primary: oklch(0.8221 0.0251 264.35);
+--color-bg-secondary: oklch(0.8787 0.0116 266.55);
+--color-bg-tertiary: oklch(0.9832 0.0022 266.49);
+--color-text-primary: oklch(0.2229 0.0138 264.23);
+--color-text-secondary: oklch(0.6229 0.0077 264.45); */
 
 /* @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
 *,
