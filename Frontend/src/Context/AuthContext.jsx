@@ -24,6 +24,7 @@ export function AuthProvider({ children }) {
   }
   function removeToken() {
     localStorage.removeItem("token");
+    localStorage.removeItem("role");
   }
 
   return (

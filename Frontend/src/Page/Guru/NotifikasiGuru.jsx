@@ -5,6 +5,7 @@ import Loading from "../../Components/Loading";
 import { useNavigate } from "react-router-dom";
 import SidebarLayout from "../../Components/Layout/SidebarLayout";
 import { Mail, Clock, Ban, Check, LayoutDashboard, CalendarPlus, Bell } from "lucide-react";
+import { activeLink } from "./_SidebarList";
 
 export default function NotifikasiGuru() {
   const navigate = useNavigate()
@@ -67,11 +68,7 @@ export default function NotifikasiGuru() {
     title="Dashboard Guru"
     showDate={true}
     className="relative min-h-screen flex bg-gray-50"
-    linklist={[
-      { path: "/dashboard-guru", label: "Beranda", icon: <LayoutDashboard /> },
-      { path: "/tambah-janji", label: "Tambah Janji", icon: <CalendarPlus /> },
-      { path: "/notifikasi-guru", label: "Notifikasi", icon: <Bell />, select: true }
-    ]}
+    linklist={activeLink("/notifikasi-guru")}
   >
     <main className="flex-1 p-3.5 pt-7 px-6 max-w-[1700px] m-auto">
       {loading ? (

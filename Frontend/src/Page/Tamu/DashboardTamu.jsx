@@ -60,7 +60,7 @@ export default function DashboardTamu() {
   }
   return (
     <div className="dashboard-guru">
-      <NavbarTamu />
+      <NavbarTamu /> 
       <div className="container-admin">
         <div className="table-container">
           <div className="header-table">

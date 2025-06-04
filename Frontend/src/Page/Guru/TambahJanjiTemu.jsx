@@ -4,8 +4,8 @@ import { apiAuth } from "../../api/baseAPI";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Auth } from "../../Context/AuthContext";
 import SidebarLayout from "../../Components/Layout/SidebarLayout";
-import { LayoutDashboard, CalendarPlus, Bell } from "lucide-react";
 import { enqueueSnackbar } from "notistack";
+import { activeLink } from "./_SidebarList";
 
 export default function TambahJanjiTemu() {
   const { getToken, getName } = Auth()
@@ -16,7 +16,6 @@ export default function TambahJanjiTemu() {
   const [waktu, setWaktu] = useState("-")
   const [dataTamu, setDataTamu] = useState([])
   const [disabledSubmit, setDisabledSubmit] = useState(false)
-  const [showSidebar, setShowSidebar] = useState(false)
   const [data, setData] = useState({
     nama_tamu: "",
     no_hp: "",
@@ -97,11 +96,7 @@ export default function TambahJanjiTemu() {
     title="Dashboard Guru"
     showDate={true}
     className="relative min-h-screen flex bg-gray-50"
-    linklist={[
-      { path: "/dashboard-guru", label: "Beranda", icon: <LayoutDashboard />},
-      { path: "/tambah-janji", label: "Tambah Janji", icon: <CalendarPlus />, select: true  },
-      { path: "/notifikasi-guru", label: "Notifikasi", icon: <Bell /> }
-    ]}
+    linklist={activeLink("/tambah-janji")}
   >
     <main className="flex-1 p-3.5 pt-7 px-6 max-w-[1700px] m-auto">
       <div className="min-h-[550px] bg-gray-50 flex transition-all duration-300">

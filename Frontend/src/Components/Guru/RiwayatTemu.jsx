@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { apiAuth } from "../../api/baseAPI";
 import { Auth } from "../../Context/AuthContext";
-import ButtonFiltering from "../ButtonFiltering";
+// import ButtonFiltering from "../ButtonFiltering";
 import Search from "../Search";
+import FilterLayout from "../Layout/FilterLayout";
+import { enqueueSnackbar } from "notistack";
 
 export default function RiwayatTemu() {
   const { getToken } = Auth();
@@ -21,6 +23,7 @@ export default function RiwayatTemu() {
         });
         setData(response.data.riwayat);
       } catch (error) {
+        enqueueSnackbar('Tidak dapat mengambil permintaan',{variant:"error"})
         console.log(error.response);
       }
     }
@@ -69,11 +72,40 @@ export default function RiwayatTemu() {
       <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-4">
         <Search setFiltering={setFiltering} filtering={filtering} />
         <h2 className="text-xl font-bold text-gray-800">Riwayat Janji Temu</h2>
-        <ButtonFiltering
+        <FilterLayout
+          onChange={(dataValue) => {
+            setFiltering({
+              ...filtering,
+              ...dataValue
+            })
+          }}
+          list={[
+            {
+              label: "Status",
+              name: "status",
+              select: [
+                { label: "Semua" },
+                { label: "Menunggu" },
+                { label: "Selesai" },
+                { label: "Terlambat", value: "Telat" },
+                { label: "Jadwalkan Ulang", value: "Batalkan" }
+              ]
+            },
+            {
+              label: "Waktu",
+              name: "tanggal",
+              select: [
+                { label: "Terbaru", value: "desc" },
+                { label: "Terlama", value: "asc" }
+              ]
+            }
+          ]}
+        />
+        {/* <ButtonFiltering
           setFiltering={setFiltering}
           filtering={filtering}
           filterBy={["status", "tanggal"]}
-        />
+        /> */}
       </div>
 
       <div className="overflow-x-auto">

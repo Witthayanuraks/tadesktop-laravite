@@ -1,13 +1,15 @@
 // Universal Sidebar - Just Use Children Content Only
-// Sc: git@ernestoyoofi 👋😁
 
 import { useEffect, useRef, useState } from "react"
-import { X, Menu } from "lucide-react"
+import { X, Menu, LogOut } from "lucide-react"
+import { Auth } from "../../Context/AuthContext"
 
-export default function SidebarLayout({ name = "", title, showLogo, showDate, linklist, children, ...other }) {
+export default function SidebarLayout({ title, showLogo, showDate, linklist, children, ...other }) {
+  const { getName, removeToken } = Auth()
   const refAll = useRef()
   const [showSidebar, setShowSidebar] = useState(true)
-  const symbolicName = String(name||(typeof name !== "string"? "Unknowing":name))
+  const _symbName = String(getName()||"#Unknowing")
+  const symbolicName = String(_symbName||(typeof _symbName !== "string"? "#Unknowing":_symbName))
   const dateFormat = new Intl.DateTimeFormat("id-ID", {
     weekday: "long", day: "2-digit", month: "long", year: "numeric"
   }).format(new Date())
@@ -65,9 +67,9 @@ export default function SidebarLayout({ name = "", title, showLogo, showDate, li
       </div>
     </button>
     <aside
-      className={"fixed top-0 left-0 w-full max-w-[300px] h-screen bg-japanese-indigo z-50 duration-300"+(showSidebar? " ml-[0px] max-md:shadow-xl":" ml-[-300px]")}
+      className={"fixed top-0 left-0 w-full max-w-[300px] h-screen bg-japanese-indigo flex flex-wrap content-between z-50 duration-300 overflow-x-auto"+(showSidebar? " ml-[0px] max-md:shadow-xl":" ml-[-300px]")}
     >
-      <div className="w-full mt-[60px] p-3.5 px-5">
+      <div className="w-full pt-[68px] p-3.5 px-5">
         {!!(showLogo && typeof showLogo === "boolean")&&<div className="w-full h-[155px] my-3 mb-5">
           <img src="/logo.png" className="w-full h-full object-contain"/>
         </div>}
@@ -86,6 +88,17 @@ export default function SidebarLayout({ name = "", title, showLogo, showDate, li
             </a>
           ))}
         </div>
+      </div>
+      <div className="w-full h-[90px] p-3.5 px-5 text-white">
+        <button
+          className="w-full flex items-center p-3.5 px-2 rounded-md bg-coral shadow-xl cursor-pointer duration-150"
+          onClick={() => { removeToken() }}
+        >
+          <span className="w-[46px] flex items-center justify-center">
+            <LogOut />
+          </span>
+          <span className="pl-2.5">Keluar</span>
+        </button>
       </div>
     </aside>
     <div
