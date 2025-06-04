@@ -11,6 +11,12 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
+        $request->validate([
+            'username' => 'required_without:telepon',
+            'telepon' => 'required_without:username',
+            'password' => 'required|string|min:6'
+        ]);
+
         $user = $request->username ? User::where("username", $request->username)->first() : Tamu::where("telepon", $request->telepon)->first();
         if (!$user) {
             return response()->json([

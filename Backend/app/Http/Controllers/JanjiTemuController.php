@@ -17,63 +17,52 @@ class JanjiTemuController extends Controller
 {
     public function createJanji(Request $request)
     {
-        $user = $request->user();
-        $tamu = Tamu::where('telepon', $request->no_hp)->first();
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'no_hp' => 'required|string|regex:/^[0-9]+$/|min:10',
+            'tanggal' => 'required|date|after:now',
+            'keterangan' => 'required|string',
+            'guru' => 'required_if:role,!=,Guru|exists:users,id'
+        ]);
 
-        // Buat / ambil tamu
+        $user = $request->user();
+        $tamu = Tamu::where('telepon', $validated['no_hp'])->first();
+
         $kodeVerifikasi = null;
         if (!$tamu) {
             $kodeVerifikasi = Str::random(10);
             $tamu = Tamu::create([
-                'nama'    => $request->nama_tamu,
-                'telepon' => $request->no_hp,
+                'name'    => $validated['name'],
+                'telepon' => $validated['no_hp'],
                 'password' => Hash::make($kodeVerifikasi),
             ]);
         }
-        // else {
-        //     $tamu->update([
-        //         "password" => Hash::make($kodeVerifikasi)
-        //     ]);
-        // }
 
-        // Tentukan user_id (role Guru vs lainnya)
-        $userId = $user->role === 'Guru'
-            ? $user->id
-            : $request->guru;
+        $userId = $user->role === 'Guru' ? $user->id : $validated['guru'];
 
-        // Buat Janji temu
         $createJanji = JadwalTemu::create([
             'user_id'   => $userId,
             'tamu_id'   => $tamu->id,
-            'tanggal'   => $request->tanggal,
-            'keterangan' => $request->keterangan,
+            'tanggal'   => $validated['tanggal'],
+            'keterangan' => $validated['keterangan'],
             "created_at" => now()
         ]);
 
-        // —————— GENERATE QR CODE ——————
-        // Isi QR: id janji temu (ubah kalau perlu)
         $pngData = QrCode::format('png')
             ->size(300)
             ->generate($createJanji->id);
 
-        // Base64 data URL
         $base64 = 'data:image/png;base64,' . base64_encode($pngData);
-
-        // Ubah nomor lokal (0xxxx) → internasional (62xxxx)
-        $toNumber = preg_replace('/^0/', '62', $request->no_hp);
-
-        // —————— KIRIM KE EXPRESS (wweb.js) --------
-        // Endpoint ini sesuai yang kamu expose di server.js
+        $toNumber = preg_replace('/^0/', '62', $validated['no_hp']);
         $expressUrl = config('services.wa_service.base_url') . '/send-media';
 
-        $nameGuru = User::where("id", $request->guru ?? 1)->first();
+        $nameGuru = User::find($validated['guru'] ?? $user->id);
         $guru = $user->role == "Guru" ? $user->name : $nameGuru->name;
         $caption = 'Kode QR untuk Janji Temu Dengan ' . $guru;
         if ($kodeVerifikasi) {
-            $caption = 'Kode QR untuk Janji Temu Dengan ' . $guru . ". Dan Jika anda ingin melihat Jadwalnya silahkan masukan Nomor Hp dengan Password berikut " . $kodeVerifikasi;
+            $caption .= ". Dan Jika anda ingin melihat Jadwalnya silahkan masukan Nomor Hp dengan Password berikut " . $kodeVerifikasi;
         }
 
-        // Kirim ke Express
         $response = Http::post($expressUrl, [
             'to'          => $toNumber,
             'mediaBase64' => $base64,
@@ -81,7 +70,6 @@ class JanjiTemuController extends Controller
             'caption'     => $caption,
         ]);
 
-        // Cek apakah kirim sukses
         if ($response->failed()) {
             return response()->json([
                 'message' => 'Janji Temu dibuat, tapi gagal mengirim QR ke WhatsApp',
@@ -94,13 +82,19 @@ class JanjiTemuController extends Controller
             'janji_id' => $createJanji->id,
         ], 200);
     }
+
     public function getJanji(Request $request)
     {
-        $user = $request->user();
-        $tanggal = $request->query("tanggal") ?? "asc";
-        $status = $request->query("status") ?? "semua";
-        $nama = $request->query("nama");
+        $validated = $request->validate([
+            'tanggal' => 'nullable|string|in:asc,desc',
+            'status' => 'nullable|string',
+            'name' => 'nullable|string'
+        ]);
 
+        $user = $request->user();
+        $tanggal = $validated['tanggal'] ?? "asc";
+        $status = $validated['status'] ?? "semua";
+        
         if ($user->role == "Guru") {
             $janji = JadwalTemu::where('user_id', $user->id)
                 ->whereDate('tanggal', Carbon::today())
@@ -109,106 +103,115 @@ class JanjiTemuController extends Controller
                 ->orderBy('tanggal', 'desc')
                 ->get();
 
-            $riwayat = JadwalTemu::orderBy("tanggal", $tanggal)->where([
-                "user_id" => $user->id,
-            ])
-                ->with("tamu")
-                ->get();
+            $query = JadwalTemu::orderBy("tanggal", $tanggal)
+                ->where("user_id", $user->id)
+                ->with("tamu");
 
-            // mengambil data semua tamu
             if ($status !== "Semua") {
-                $riwayat = JadwalTemu::orderBy("tanggal", $tanggal)->where([
-                    "user_id" => $user->id,
-                ])
-                    ->where("status", $status)
-                    ->with("tamu")
-                    ->get();
+                $query->where("status", $status);
             }
-            // mengambil data yang terlambat
-            if ($status == "Telat") {
-                $riwayat = JadwalTemu::orderBy("tanggal", $tanggal)->where([
-                    "user_id" => $user->id,
-                ])
-                    ->where(["status" => $status, "reschedule" => "Tunggu"])
-                    ->with("tamu")
-                    ->get();
+            if ($status == "Terlambat") {
+                $query->where(["status" => $status, "reschedule" => "Tunggu"]);
             }
-            // mengambil data yang Dijadwalkan Ulang
             if ($status == "Batalkan") {
-                $riwayat = JadwalTemu::orderBy("tanggal", $tanggal)->where([
-                    "user_id" => $user->id,
-                ])
-                    ->where("reschedule", $status)
-                    ->with("tamu")
-                    ->get();
+                $query->where("reschedule", $status);
             }
-            $jadwalTemu = JadwalTemu::orderBy("tanggal", "asc")->where([
-                "user_id" => $user->id,
-            ])
+
+            $riwayat = $query->get();
+            $jadwalTemu = JadwalTemu::orderBy("tanggal", "asc")
+                ->where("user_id", $user->id)
                 ->with("tamu")
                 ->get();
 
-            return response()->json(["janji" => $janji, "riwayat" => $riwayat, "jadwal_temu" => $jadwalTemu], 200);
+            return response()->json([
+                "janji" => $janji, 
+                "riwayat" => $riwayat, 
+                "jadwal_temu" => $jadwalTemu
+            ], 200);
         }
+
         if ($user->role == "Admin" || $user->role == "Penerima Tamu") {
             $janji = JadwalTemu::with(["tamu", "guru"])->get();
             return response()->json($janji, 200);
         }
     }
+
     public function getDetailJanji(Request $request, string $id)
     {
         $janji = JadwalTemu::where(["user_id" => $id])->with(["tamu"])->get();
         return response()->json($janji, 200);
     }
+
     public function updateJanji(Request $request, string $id)
     {
+        $validated = $request->validate([
+            'id' => 'required|string'
+        ]);
+
         $janji = JadwalTemu::where("id", $id)->with("tamu")->first();
-        if (!$janji || $janji->status !== "Menunggu") {
+        Log::info($id);
+        Log::info($janji);
+
+        if (!$janji) {
+            return response()->json([
+                "message" => "Janji Temu tidak terdaftar"
+            ], 400);
+        }
+
+        if ($janji->status !== "Menunggu") {
             $toNumber = preg_replace('/^0/', '62', $janji->tamu->telepon);
             Log::info($toNumber);
-            // Kirim ke Express
+
+            $feedbackMessage = "Terima kasih telah berkunjung ke SMKN 2 Singosari! 🙏\n\n";
+            $feedbackMessage .= "Kami sangat menghargai masukan Anda untuk meningkatkan layanan kami.\n";
+            $feedbackMessage .= "Mohon luangkan waktu sejenak untuk memberikan penilaian dan ulasan melalui link berikut:\n";
+            $feedbackMessage .= "📝 https://g.co/kgs/8jkAYv2\n\n";
+            $feedbackMessage .= "Terima kasih atas kunjungan Anda! 🌟";
+
             $response = Http::post("http://localhost:3001/api/wa/send-link", [
-                'to'          => $toNumber,
-                'caption'     => "Terima kasih Telah Berkunjung, silahkan mengisi link berikut : https://g.co/kgs/8jkAYv2",
+                'to' => $toNumber,
+                'caption' => $feedbackMessage,
             ]);
 
-            Log::info($response);
-
-            // Cek apakah kirim sukses
             if ($response->failed()) {
                 return response()->json([
                     'message' => 'Wa service Error',
-                    'error'   => $response->body(),
+                    'error' => $response->body(),
                 ], 500);
             }
+
             return response()->json([
-                "message" => "Terima Kasih telah Berkunjung"
+                "message" => "Terima Kasih telah Berkunjung",
+                "feedback_url" => "https://g.co/kgs/8jkAYv2",
+                "feedback_message" => "Kami sangat menghargai masukan Anda. Silakan berikan penilaian dan ulasan untuk SMKN 2 Singosari"
             ], 200);
         }
-        if ($janji->tanggal < Carbon::now()->subMinutes(45)) {
-            $janji->update([
-                "status" => "Telat",
-                "updated_at" => now()
-            ]);
-        } else {
-            $janji->update([
-                "status" => "Selesai",
-                "updated_at" => now()
-            ]);
-        }
+
+        $status = $janji->tanggal < Carbon::now()->subMinutes(45) ? "Terlambat" : "Selesai";
+        
+        $janji->update([
+            "status" => $status,
+            "updated_at" => now()
+        ]);
+
         return response()->json([
-            "message" => "Kode QR Sukses"
+            "message" => "Kode QR Sukses di scan, Selamat Datang " . $janji->tamu->name . " di SMKN 2 Singosari"
         ], 200);
     }
+
     public function laporanJanji(Request $request)
     {
-        $date = $request->query("date");
-        $guruId = $request->query("guru") ?? "semua";
+        $validated = $request->validate([
+            'date' => 'required|string',
+            'guru' => 'nullable|string'
+        ]);
+
+        $date = $validated['date'];
+        $guruId = $validated['guru'] ?? "semua";
 
         $query = JadwalTemu::with(["tamu", "guru"])
             ->orderBy("tanggal", "asc");
 
-        // Filter berdasarkan tanggal
         if ($date === "bulan-ini") {
             $query->whereMonth("tanggal", Carbon::now()->month);
         } elseif ($date === "bulan-kemarin") {
@@ -219,44 +222,60 @@ class JanjiTemuController extends Controller
                 ->whereMonth('tanggal', $bulan);
         }
 
-        // Filter berdasarkan guru jika tidak "semua"
         if ($guruId !== "semua") {
             $query->where("user_id", $guruId);
         }
 
-        $janji = $query->get();
-
-        return response()->json($janji, 200);
+        return response()->json($query->get(), 200);
     }
 
     public function notification(Request $request)
     {
         $user = $request->user();
-        $notif = JadwalTemu::orderBy("updated_at", "desc")->where("user_id", $user->id)
-            ->where("status", "!=", "Menunggu")->with(["tamu"])
-            ->get();
+        
         if ($user->role == "Penerima Tamu") {
-            $notif = Jadwaltemu::where("reschedule", "!=", null)->with(["guru", "tamu"])->get();
+            return response()->json(
+                Jadwaltemu::where("reschedule", "!=", null)
+                    ->with(["guru", "tamu"])
+                    ->get(),
+                200
+            );
         }
-        return response()->json($notif, 200);
+
+        return response()->json(
+            JadwalTemu::orderBy("updated_at", "desc")
+                ->where("user_id", $user->id)
+                ->where("status", "!=", "Menunggu")
+                ->with(["tamu"])
+                ->get(),
+            200
+        );
     }
+
     public function putNotification(Request $request, string $id)
     {
-        $user = $request->user();
-        $status = $request->query("status");
-        $notif = JadwalTemu::where("id", $id)
-            ->first()
-            ->update([
-                "reschedule" => $status
-            ]);
+        $validated = $request->validate([
+            'status' => 'required|string'
+        ]);
+
+        JadwalTemu::findOrFail($id)->update([
+            "reschedule" => $validated['status']
+        ]);
+
         return response()->json([
             "message" => "Janji Berhasil di Konfirmasi"
         ], 200);
     }
+
     public function getJanjiByPenerimaTamu(Request $request)
     {
         $user = $request->user();
-        $janji = JadwalTemu::orderby("tanggal", "asc")->where(["tamu_id" => $user->id])->with(["tamu", "guru"])->get();
-        return response()->json($janji, 200);
+        return response()->json(
+            JadwalTemu::orderby("tanggal", "asc")
+                ->where(["tamu_id" => $user->id])
+                ->with(["tamu", "guru"])
+                ->get(),
+            200
+        );
     }
 }
