@@ -154,9 +154,9 @@ export default function KalenderAdmin() {
   if (loading) return <Loading />;
 
  return (
-  <div className="p-6 space-y-6 bg-gray-50 min-h-screen relative">
+  <div className="space-y-6 bg-gray-50 min-h-screen relative">
     {/* Tombol buka sidebar */}
-    <button
+    {/* <button
       onClick={() => setShowSidebar(true)}
       className="fixed top-5 left-5 z-50 w-12 h-12 bg-white rounded-full shadow-md flex items-center justify-center border hover:scale-105 transition"
     >
@@ -167,7 +167,7 @@ export default function KalenderAdmin() {
       />
     </button>
 
-    <SidebarAdmin show={showSidebar} onClose={() => setShowSidebar(false)} />
+    <SidebarAdmin show={showSidebar} onClose={() => setShowSidebar(false)} /> */}
 
     {/* === Kalender Section === */}
     <div className="bg-white rounded-xl shadow p-4 space-y-4">

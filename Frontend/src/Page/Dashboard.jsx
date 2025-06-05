@@ -10,7 +10,6 @@ export default function Dashboard() {
     const token = getToken();
     const role = getRole();
 
-    // Jika sudah login, redirect ke dashboard sesuai role
     if (token) {
       if (role === "admin") return navigate("/dashboard-admin");
       if (role === "guru") return navigate("/dashboard-guru");
@@ -19,94 +18,58 @@ export default function Dashboard() {
     }
   }, []);
 
-  return (
-    <div className="relative min-h-screen bg-white overflow-hidden font-sans flex flex-col justify-between">
-      {/* <div className="absolute inset-0 z-0 overflow-hidden">
-       <div className="absolute left-1/2 -translate-x-1/2 w-[150%] rotate-12 h-16 bg-orange-400 rounded-xl top-[10%] md:top-[15%] max-md:rotate-0 max-md:w-[120%] max-md:h-12 max-md:top-[5%]" />
-          <div className="absolute left-1/2 -translate-x-1/2 w-[150%] rotate-12 h-16 bg-[#1D3D4C] rounded-xl top-[30%] md:top-[35%] max-md:rotate-0 max-md:w-[120%] max-md:h-12 max-md:top-[25%]" />
-          <div className="absolute left-1/2 -translate-x-1/2 w-[150%] rotate-12 h-16 bg-orange-400 rounded-xl top-[50%] md:top-[55%] max-md:rotate-0 max-md:w-[120%] max-md:h-12 max-md:top-[45%]" />
-          <div className="absolute left-1/2 -translate-x-1/2 w-[150%] rotate-12 h-16 bg-[#1D3D4C] rounded-xl top-[70%] md:top-[75%] max-md:rotate-0 max-md:w-[120%] max-md:h-12 max-md:top-[65%]" />
-      </div> */}
-      {/* 🔰 LOGO */}
-      <img
-        src="https://smkn2-singosari.sch.id/wp-content/uploads/2021/10/logo.png"
-        alt="Logo"
-        className="absolute top-6 left-6 w-16 z-10"
-      />
-
-      {/* MAIN CONTENT */}
-      <div className="z-10 mt-24 px-4">
-        <div className="text-center">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-[#004A76] mb-1">
-            BUKU TAMU
-          </h1>
-          <h2 className="text-4xl md:text-5xl font-bold text-[#FF6B00] mb-6">
-            UNDANGAN
-          </h2>
-
-          <div className="flex gap-4 flex-wrap justify-center mb-6">
+   return (
+    <div
+      className="min-h-screen bg-cover bg-center flex flex-col justify-between text-gray-900"
+      style={{ backgroundImage: "url('/TampilanAwal.png')" }} 
+    >
+      {/* Header */}
+      <div className="text-center pt-16 md:pt-24">
+        <h1 className="text-5xl md:text-6xl font-extrabold text-blue-900 leading-tight">
+          BUKU
+        </h1>
+        <h2 className="text-4xl md:text-5xl font-extrabold text-orange-500">
+          TAMU UNDANGAN
+        </h2>
+        <p className="mt-2 text-lg md:text-xl font-medium text-gray-700">
+          SMK Negeri 2 Singosari!
+        </p>
+      </div>
+      {/* Konten tengah */}
+      <div className="flex flex-col md:flex-row justify-between items-center px-8 md:px-20 py-12 gap-8">
+        {/* Kiri */}
+        <div className="max-w-md space-y-6">
+          {/* Tombol Login & Login Tamu */}
+          <div className="flex flex-col md:flex-row gap-4">
             <button
               onClick={() => navigate("/login")}
-              className="bg-[#FF6B00] text-white font-bold py-3 px-10 rounded-full shadow-md hover:bg-[#E56000] transition-all text-lg"
+              className="bg-[#FF6B00] text-white font-bold px-10 py-3 rounded-full text-lg hover:bg-orange-600 transition w-full md:w-auto"
             >
-              Log In
+              Masuk
             </button>
+
             <button
               onClick={() => navigate("/login-tamu")}
-              className="bg-[#004A76] text-white font-bold py-3 px-10 rounded-full shadow-md hover:bg-[#003952] transition-all text-lg"
+              className="bg-[#004A76] text-white font-bold px-10 py-3 rounded-full text-lg hover:bg-blue-800 transition w-full md:w-auto"
             >
-              Sign Up
+              Masuk Tamu
             </button>
           </div>
 
-          <p className="text-sm text-gray-600 mb-12 max-w-xl mx-auto leading-relaxed">
-            Untuk Guru & Staf, silakan login untuk melanjutkan. Untuk Tamu,
-            silahkan sign up jika belum memiliki akun, atau login jika sudah
-            terdaftar.
-          </p>
-        </div>
-
-        {/* Tentang Sekolah */}
-        <div className="mt-6 bg-white/80 backdrop-blur-sm rounded-xl p-6 max-w-2xl mx-auto shadow-md text-center">
-          <h3 className="text-xl font-bold text-[#004A76] mb-3 border-b-2 border-[#FF6B00] pb-2 inline-block">
-            Tentang
-          </h3>
-          <p className="text-md text-[#333] leading-relaxed">
-            SMK Negeri 2 Singosari merupakan salah satu Lembaga Pendidikan
-            Menengah Kejuruan di Kabupaten Malang, Jawa Timur yang
-            menyelenggarakan Program Pendidikan Kejuruan Industri Kreatif,
-            Teknologi Informatika dan Elektronika.
-          </p>
-        </div>
-
-        {/* Ulasan */}
-        <div className="mt-12 max-w-2xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-[#004A76] mb-6">
-            ULASAN
-          </h1>
-
-          <p className="text-lg text-gray-700 font-medium mb-8 max-w-2xl leading-relaxed">
-            Kami sangat menghargai pendapat Anda<br />
-            Silahkan beri ulasan atau masukan untuk meningkatkan pelayanan kami.
-          </p>
-
-          <div className="bg-white shadow-md p-6 rounded-xl inline-block">
-            <img
-              src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=https://goo.gl/maps/KvNfgbdKXn5HFpBa6"
-              alt="QR Code"
-              className="w-[220px] h-[220px] mx-auto"
-            />
-            <p className="mt-4 text-sm text-gray-500">
-              Scan untuk beri ulasan melalui Google Maps
+          {/* Tentang */}
+          <div>
+            <h3 className="text-xl font-bold mb-2 text-blue-900">Tentang</h3>
+            <p className="text-sm leading-relaxed text-gray-800">
+              SMK Negeri 2 Singosari merupakan salah satu Lembaga Pendidikan Menengah Kejuruan di Kabupaten Malang, Jawa Timur yang menyelenggarakan Program Pendidikan Kejuruan Industri Kreatif, Teknologi Informatika dan Elektronika.
             </p>
           </div>
         </div>
       </div>
 
       {/* Footer */}
-      <div className="text-center text-sm text-gray-600 my-8 z-10">
-        © SMKN 2 Singosari 2024 – All Rights Reserved.
-      </div>
+      <footer className="text-center text-sm text-gray-600 pb-6">
+        © SMKN 2 Singosari 2025 — All Rights Reserved.
+      </footer>
     </div>
   );
 }

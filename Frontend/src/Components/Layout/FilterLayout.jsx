@@ -1,4 +1,4 @@
-// Universal Sidebar - Just Use Children Content Only
+// Universal Filter - Just Use Children Content Only
 
 import { ChevronLeft } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
@@ -13,6 +13,7 @@ export default function FilterLayout({ label = "Filter", list = [], onChange }) 
       setCase(true)
     } else {
       setCase(false)
+      setSelectionOptionId(-1)
     }
   }
   const showWindow = (indexContent) => {
@@ -41,7 +42,7 @@ export default function FilterLayout({ label = "Filter", list = [], onChange }) 
   }
 
   return <div className="w-[67px] flex items-start justify-end select-none">
-    <button className="bg-coral text-white p-1.5 px-3.5 rounded-md cursor-pointer" ref={buttonFilter}>
+    <button className="bg-coral text-white p-1.5 px-3.5 rounded-md cursor-pointer hover:bg-coral-primary active:bg-coral-primary" ref={buttonFilter}>
       <span className="font-semibold pointer-events-none">{String(label)}</span>
     </button>
     <div className="absolute bg-japanese-indigo py-1.5 z-20 w-auto mt-[40px] text-white rounded-md shadow-xl" style={{ scale: showCase? "1":"0" }}>

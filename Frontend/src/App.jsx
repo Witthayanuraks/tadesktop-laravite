@@ -96,6 +96,7 @@ import {
 } from "./Context/AuthContext";
 import TambahJanjiTemu from "./Page/Guru/TambahJanjiTemu";
 import NotifikasiGuru from "./Page/Guru/NotifikasiGuru";
+import ProfileGuru from "./Page/Guru/ProfileGuru";
 import DashboardPenerimaTamu from "./Page/PenerimaTamu/DashboardPenerimaTamu";
 import TambahJanjiTemuPenerimaTamu from "./Page/PenerimaTamu/TambahJanjiTemuPenerimaTamu";
 import Scan from "./Page/PenerimaTamu/Scan";
@@ -108,8 +109,11 @@ import TambahPengguna from "./Page/Admin/TambahPengguna";
 import LoginTamu from "./Page/Tamu/LoginTamu";
 import DashboardTamu from "./Page/Tamu/DashboardTamu";
 import Pengguna from "./Components/Admin/Pengguna";
+import LoginAll from "./Page/Login";
 import TestingAllLayout from "./_testing/testing";
 import { SnackbarProvider } from "notistack";
+import ListGuru from "./Page/Admin/ListGuru";
+import { AlertPopupProvider } from "./Components/AlertPopup";
 
 
 // [INFO]: Problem must be a <Route> or <React.Fragment>
@@ -203,38 +207,41 @@ function AppDesign_Dev() {
     }}
   >
     <div className="font-poppins">
-      <Router>
-        <AuthProvider>
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            {/* [TRIGGER] Please Remove Testing Layout On Production! */}
-            <Route path="/testing/layout" element={<TestingAllLayout />}/>
-            {/* ----------------------------------------------------- */}
-            {/* --- AUTHENTICATION --- */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/login-tamu" element={<LoginTamu />} />
-            {/* --- DASHBOARD GURU --- */}
-            <Route path="/dashboard-guru" element={<DashboardGuru />} />
-            <Route path="/tambah-janji" element={<TambahJanjiTemu />} />
-            <Route path="/notifikasi-guru" element={<NotifikasiGuru />} />
-            {/* --- PENERIMAAN TAMU --- */}
-            <Route path="/dashboard-penerima-tamu" element={<DashboardPenerimaTamu />} />
-            <Route path="/tambah-janji-tamu" element={<TambahJanjiTemuPenerimaTamu />} />
-            <Route path="/scan" element={<Scan />} />
-            <Route path="/notifikasi-penerima-tamu" element={<NotifikasiPenerimaTamu />} />
-            {/* --- ADMIN --- */}
-            <Route path="/dashboard-admin" element={<DashboardAdmin />} />
-            <Route path="/tambah-guru" element={<TambahPengguna />} />
-            <Route path="/detail-guru" element={<DetailPengguna />} />
-            <Route path="/jadwal-temu" element={<JadwalTemu />} />
-            <Route path="/laporan" element={<Laporan />} />
-            {/* --- PENGGUNA --- */}
-            <Route path="/pengguna" element={<Pengguna />} />
-            <Route path="/dashboard-tamu" element={<DashboardTamu />} />
-          </Routes>
-        </AuthProvider>
-      </Router>
+      <AlertPopupProvider>
+        <Router>
+          <AuthProvider>
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              {/* [TRIGGER] Please Remove Testing Layout On Production! */}
+              <Route path="/testing/layout" element={<TestingAllLayout />}/>
+              {/* ----------------------------------------------------- */}
+              {/* --- AUTHENTICATION --- */}
+              <Route path="/login" element={<LoginAll />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/login-tamu" element={<LoginTamu />} />
+              {/* --- DASHBOARD GURU --- */}
+              <Route path="/dashboard-guru" element={<DashboardGuru />} />
+              <Route path="/tambah-janji" element={<TambahJanjiTemu />} />
+              <Route path="/notifikasi-guru" element={<NotifikasiGuru />} />
+              <Route path="/profile-guru" element={<ProfileGuru />} />
+              {/* --- PENERIMAAN TAMU --- */}
+              <Route path="/dashboard-penerima-tamu" element={<DashboardPenerimaTamu />} />
+              <Route path="/tambah-janji-tamu" element={<TambahJanjiTemuPenerimaTamu />} />
+              <Route path="/scan" element={<Scan />} />
+              <Route path="/notifikasi-penerima-tamu" element={<NotifikasiPenerimaTamu />} />
+              {/* --- DASHBOARD ADMIN --- */}
+              <Route path="/dashboard-admin" element={<DashboardAdmin />} />
+              <Route path="/tambah-guru" element={<TambahPengguna />} />
+              <Route path="/detail-guru" element={<DetailPengguna />} />
+              <Route path="/jadwal-temu" element={<JadwalTemu />} />
+              <Route path="/laporan" element={<Laporan />} />
+              <Route path="/pengguna" element={<ListGuru />} />
+              {/* --- HALAMAN TAMU --- */}
+              <Route path="/dashboard-tamu" element={<DashboardTamu />} />
+            </Routes>
+          </AuthProvider>
+        </Router>
+      </AlertPopupProvider>
     </div>
   </SnackbarProvider>
 }
@@ -249,30 +256,33 @@ function App() {
     }}
   >
     <div className="font-poppins">
-      <Router>
-        <AuthProvider>
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/login" element={<HaveToken><Login /></HaveToken>} />
-            <Route path="/signup" element={<HaveToken><SignUp /></HaveToken>} />
-            <Route path="/login-tamu" element={<HaveToken><LoginTamu /></HaveToken>} />
-            <Route path="/dashboard-guru" element={<NoToken><Guru><DashboardGuru /></Guru></NoToken>} />
-            <Route path="/tambah-janji" element={<NoToken><Guru><TambahJanjiTemu /></Guru></NoToken>} />
-            <Route path="/notifikasi-guru" element={<NoToken><Guru><NotifikasiGuru /></Guru></NoToken>} />
-            <Route path="/dashboard-penerima-tamu" element={<NoToken><PenerimaTamu><DashboardPenerimaTamu /></PenerimaTamu></NoToken>} />
-            <Route path="/tambah-janji-tamu" element={<NoToken><PenerimaTamu><TambahJanjiTemuPenerimaTamu /></PenerimaTamu></NoToken>} />
-            <Route path="/scan" element={<NoToken><PenerimaTamu><Scan /></PenerimaTamu></NoToken>} />
-            <Route path="/notifikasi-penerima-tamu" element={<NoToken><PenerimaTamu><NotifikasiPenerimaTamu /></PenerimaTamu></NoToken>} />
-            <Route path="/dashboard-admin" element={<NoToken><Admin><DashboardAdmin /></Admin></NoToken>} />
-            <Route path="/tambah-guru" element={<NoToken><Admin><TambahPengguna /></Admin></NoToken>} />
-            <Route path="/detail-guru" element={<NoToken><Admin><DetailPengguna /></Admin></NoToken>} />
-            <Route path="/jadwal-temu" element={<NoToken><Admin><JadwalTemu /></Admin></NoToken>} />
-            <Route path="/laporan" element={<NoToken><Admin><Laporan /></Admin></NoToken>} />
-            <Route path="/pengguna" element={<NoToken><Admin><Pengguna /></Admin></NoToken>} />
-            <Route path="/dashboard-tamu" element={<NoToken><Tamu><DashboardTamu /></Tamu></NoToken>} />
-          </Routes>
-        </AuthProvider>
-      </Router>
+      <AlertPopupProvider>
+        <Router>
+          <AuthProvider>
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/login" element={<HaveToken><LoginAll /></HaveToken>} />
+              <Route path="/signup" element={<HaveToken><SignUp /></HaveToken>} />
+              <Route path="/login-tamu" element={<HaveToken><LoginTamu /></HaveToken>} />
+              <Route path="/dashboard-guru" element={<NoToken><Guru><DashboardGuru /></Guru></NoToken>} />
+              <Route path="/tambah-janji" element={<NoToken><Guru><TambahJanjiTemu /></Guru></NoToken>} />
+              <Route path="/notifikasi-guru" element={<NoToken><Guru><NotifikasiGuru /></Guru></NoToken>} />
+              <Route path="/profile-guru" element={<NoToken><Guru><ProfileGuru /></Guru></NoToken>} />
+              <Route path="/dashboard-penerima-tamu" element={<NoToken><PenerimaTamu><DashboardPenerimaTamu /></PenerimaTamu></NoToken>} />
+              <Route path="/tambah-janji-tamu" element={<NoToken><PenerimaTamu><TambahJanjiTemuPenerimaTamu /></PenerimaTamu></NoToken>} />
+              <Route path="/scan" element={<NoToken><PenerimaTamu><Scan /></PenerimaTamu></NoToken>} />
+              <Route path="/notifikasi-penerima-tamu" element={<NoToken><PenerimaTamu><NotifikasiPenerimaTamu /></PenerimaTamu></NoToken>} />
+              <Route path="/dashboard-admin" element={<NoToken><Admin><DashboardAdmin /></Admin></NoToken>} />
+              <Route path="/tambah-guru" element={<NoToken><Admin><TambahPengguna /></Admin></NoToken>} />
+              <Route path="/detail-guru" element={<NoToken><Admin><DetailPengguna /></Admin></NoToken>} />
+              <Route path="/jadwal-temu" element={<NoToken><Admin><JadwalTemu /></Admin></NoToken>} />
+              <Route path="/laporan" element={<NoToken><Admin><Laporan /></Admin></NoToken>} />
+              <Route path="/pengguna" element={<NoToken><Admin><ListGuru /></Admin></NoToken>} />
+              <Route path="/dashboard-tamu" element={<NoToken><Tamu><DashboardTamu /></Tamu></NoToken>} />
+            </Routes>
+          </AuthProvider>
+        </Router>
+      </AlertPopupProvider>
     </div>
   </SnackbarProvider>
 }

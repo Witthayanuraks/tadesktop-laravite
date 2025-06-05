@@ -4,9 +4,11 @@ import { useState } from "react"
 import FilterLayout from "../Components/Layout/FilterLayout"
 import SidebarLayout from "../Components/Layout/SidebarLayout"
 import { LayoutDashboard, CalendarPlus, Bell } from "lucide-react"
+import { useAlert } from "../Components/AlertPopup"
 
 export default function TestingAllLayout() {
   const [listUpdate, setList] = useState({})
+  const alertup = useAlert()
 
   return <div className="font-outfit">
     <SidebarLayout
@@ -51,6 +53,14 @@ export default function TestingAllLayout() {
             ]}
           />
         </div>
+        <button
+          onClick={() => {
+            alertup.show({
+              title: "Testing",
+              text: "Hanya alert pop up, bisa dipakai dimana saja tinggal pakai useAlert lalu panggil dengan show\n\nDone?",
+            })
+          }}
+        >Testing</button>
         <p>{JSON.stringify(listUpdate)}</p>
         {/* <h1 className="text-xl px-2.5 mb-3 font-semibold">Color Class Testing</h1>
         <div className="w-full max-w-[300px]">

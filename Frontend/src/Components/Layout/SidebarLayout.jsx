@@ -3,9 +3,12 @@
 import { useEffect, useRef, useState } from "react"
 import { X, Menu, LogOut } from "lucide-react"
 import { Auth } from "../../Context/AuthContext"
+import { useAlert } from "../AlertPopup"
+import { enqueueSnackbar } from "notistack"
 
 export default function SidebarLayout({ title, showLogo, showDate, linklist, children, ...other }) {
   const { getName, removeToken } = Auth()
+  const alertShow = useAlert()
   const refAll = useRef()
   const [showSidebar, setShowSidebar] = useState(true)
   const _symbName = String(getName()||"#Unknowing")
@@ -92,7 +95,22 @@ export default function SidebarLayout({ title, showLogo, showDate, linklist, chi
       <div className="w-full h-[90px] p-3.5 px-5 text-white">
         <button
           className="w-full flex items-center p-3.5 px-2 rounded-md bg-coral shadow-xl cursor-pointer duration-150"
-          onClick={() => { removeToken() }}
+          onClick={() => {
+            alertShow.show({
+              title: "Ingin keluar?",
+              text: "Jika kamu keluar, maka sesi ini akan hilang tetapi jika kamu ingin masuk, bisa masuk kembali dengan sesi baru.",
+              button: [
+                { text: "Batalkan" },
+                { text: "Ya, ingin keluar", press: async () => {
+                  enqueueSnackbar("Tunggu sebentar...")
+                  removeToken()
+                  await new Promise((a) => setTimeout(a, 500))
+                  enqueueSnackbar("Berhasil keluar dari aplikasi!, Login untuk masuk kembali",{variant:"success"})
+                  setTimeout(() => { window.location.href = "/" }, 1000) }
+                },
+              ]
+            })
+          }}
         >
           <span className="w-[46px] flex items-center justify-center">
             <LogOut />
