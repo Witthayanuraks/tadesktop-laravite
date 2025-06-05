@@ -247,7 +247,7 @@ function AppDesign_Dev() {
 }
 
 function App() {
-  return <AppDesign_Dev /> // Development Design
+  // return <AppDesign_Dev /> // Development Design
 
   return <SnackbarProvider
     anchorOrigin={{

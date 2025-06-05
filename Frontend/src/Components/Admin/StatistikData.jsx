@@ -78,6 +78,7 @@ export default function StatistikData() {
           </button>
         </div>
       </div>
+      <div className="lg:grid-cols-4 lg:grid-cols-6"></div>
       <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-${typeSpacesing} gap-6 duration-300`}>
         <StatCard
           title="Total Tamu"
