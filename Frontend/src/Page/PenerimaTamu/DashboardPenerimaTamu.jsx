@@ -3,17 +3,17 @@ import SidebarPenerimaTamu from "../../Components/PenerimaTamu/SidebarPenerimaTa
 import GetJanjiTemuByPenerimaTamu from "../../Components/PenerimaTamu/GetJanjiTemuByPenerimaTamu";
 // import echo from "../../api/echo";
 import SidebarLayout from "../../Components/Layout/SidebarLayout";
+import { activeLink } from "./_SidebarList"
 
 export default function DashboardPenerimaTamu() {
   return <SidebarLayout
-  
+    title="Dashboard Penerimaan Tamu"
+    showDate={true}
+    linklist={activeLink("/dashboard-penerima-tamu")}
+    className="bg-gray-50"
   >
-
-  </SidebarLayout>
-  return (
-    <div className="dashboard-guru">
-      <SidebarPenerimaTamu />
+    <main className="flex-1 p-3.5 pt-7 px-6 max-w-[1700px] m-auto">
       <GetJanjiTemuByPenerimaTamu />
-    </div>
-  );
+    </main>
+  </SidebarLayout>
 }

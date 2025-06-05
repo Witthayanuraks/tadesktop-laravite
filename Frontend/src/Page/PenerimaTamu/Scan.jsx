@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Auth } from "../../Context/AuthContext";
 import { apiAuth } from "../../api/baseAPI";
 import { useRef, useState } from "react";
+import SidebarLayout from "../../Components/Layout/SidebarLayout";
+import { activeLink } from "./_SidebarList";
 
 export default function Scan() {
   const { getToken } = Auth();
@@ -23,27 +25,13 @@ export default function Scan() {
     }
   }
 
-  return (
-    <div className={`min-h-screen bg-gray-50 flex ${showSidebar ? "pl-64" : ""} transition-all duration-300`}>
-      {/* Toggle Logo */}
-      {!showSidebar && (
-        <button
-          onClick={() => setShowSidebar(true)}
-          className="fixed top-5 left-5 z-50 w-12 h-12 bg-white rounded-full shadow-md flex items-center justify-center border hover:scale-105 transition"
-        >
-          <img
-            src="https://smkn2-singosari.sch.id/wp-content/uploads/2021/10/logo.png"
-            alt="SMKN 2"
-            className="w-8 h-8 object-contain"
-          />
-        </button>
-      )}
-
-      {/* Sidebar */}
-      <SidebarPenerimaTamu show={showSidebar} onClose={() => setShowSidebar(false)} />
-
-      {/* Main Content */}
-      <main className="flex-1 flex items-center justify-center p-6">
+  return <SidebarLayout
+    title="Dashboard Penerimaan Tamu"
+    showDate={true}
+    linklist={activeLink("/scan")}
+  >
+    <main className="flex-1 p-3.5 pt-7 px-6 max-w-[1700px] m-auto">
+      <div className="w-full h-screen flex items-center justify-center p-6">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -66,7 +54,7 @@ export default function Scan() {
             Konfirmasi Kehadiran
           </button>
         </form>
-      </main>
-    </div>
-  );
+      </div>
+    </main>
+  </SidebarLayout>
 }

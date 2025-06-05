@@ -1,11 +1,26 @@
 import KalenderAdmin from "../../Components/Admin/KalenderAdmin";
 import SidebarAdmin from "../../Components/Admin/SidebarAdmin";
+import Header from "../../Components/Admin/HeaderAdmin";
+import SidebarLayout from "../../Components/Layout/SidebarLayout";
+import { activeLink } from "./_SidebarList";
 
 export default function JadwalTemu() {
-  return (
-    <div>
-      <SidebarAdmin />
+  return <SidebarLayout
+    title="Dashboard Admin"
+    showDate={false}
+    showLogo={true}
+    className="relative min-h-screen flex bg-gray-50"
+    linklist={activeLink("/jadwal-temu")}
+  >
+    <main className="w-full p-3.5 pt-6 px-6 max-w-[1700px] m-auto">
+      <Header />
       <KalenderAdmin />
-    </div>
-  );
+    </main>
+  </SidebarLayout>
+  // return (
+  //   <div>
+  //     <SidebarAdmin />
+  //     <KalenderAdmin />
+  //   </div>
+  // );
 }

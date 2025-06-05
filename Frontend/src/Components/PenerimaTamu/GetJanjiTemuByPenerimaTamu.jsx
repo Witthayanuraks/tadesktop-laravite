@@ -7,6 +7,9 @@ import jsPDF from "jspdf";
 import * as XLSX from "xlsx";
 import ButtonFiltering from "../ButtonFiltering";
 import Pagination from "./Pagination";
+import FilterLayout from "../Layout/FilterLayout";
+import { enqueueSnackbar } from "notistack";
+import SelectLayout from "../Layout/SelectLayout";
 
 export default function GetJanjiTemuByPenerimaTamu() {
   const { getToken } = Auth();
@@ -43,6 +46,7 @@ export default function GetJanjiTemuByPenerimaTamu() {
         });
         setData(response.data);
       } catch (error) {
+        enqueueSnackbar('Tidak dapat mengambil permintaan',{variant:"error"})
         console.log(error.response);
       } finally {
         setLoading(false);
@@ -133,57 +137,58 @@ export default function GetJanjiTemuByPenerimaTamu() {
       <div className="bg-white rounded-lg shadow p-4 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           {/* Export */}
-          <div
-            className="relative group"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-          >
-            <button className="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600 transition">
-              Export Data
-            </button>
-            {isHovered && (
-              <div className="absolute top-12 left-0 bg-white shadow-md border rounded-lg z-10 w-40 p-2 space-y-2">
-                <button
-                  className="w-full px-3 py-2 text-sm rounded hover:bg-gray-100 disabled:opacity-50"
-                  disabled={disabled}
-                  onClick={() => {
-                    setDisabled(true);
-                    handleExportPDF();
-                  }}
-                >
-                  Export PDF
-                </button>
-                <button
-                  className="w-full px-3 py-2 text-sm rounded hover:bg-gray-100 disabled:opacity-50"
-                  disabled={disabled}
-                  onClick={() => {
-                    setDisabled(true);
-                    handleExportExcel();
-                  }}
-                >
-                  Export Excel
-                </button>
-              </div>
-            )}
-          </div>
-
+          <SelectLayout
+            layout="left-top"
+            label="Export Data"
+            name="trigger"
+            list={[
+              { label: "Export To PDF", value: "pdf" },
+              { label: "Export To Excel", value: "excel" },
+            ]}
+            onChange={(e) => {
+              switch(e.trigger) {
+                case "pdf": {
+                  console.log("Send Export To PDF...")
+                  handleExportPDF()
+                } break;
+                case "excel": {
+                  console.log("Send Export To Excel...")
+                  handleExportExcel()
+                } break;
+              }
+            }}
+          />
           {/* Title */}
           <h2 className="text-xl font-semibold text-center sm:text-left">
             Daftar Tamu
           </h2>
 
           {/* Filter Guru */}
-          <ButtonFiltering
+          <FilterLayout
+            onChange={(e) => {
+              setFiltering({...filtering,...e})
+            }}
+            list={[
+              {
+                label: "Saring Data Guru",
+                name: "guru",
+                select: [
+                  { label: "Semua Guru", value: "semua" }
+                ]
+              }
+            ]}
+          />
+          {/* <ButtonFiltering
             setFiltering={setFiltering}
             filtering={filtering}
             filterBy={["guru"]}
             setDataGuru={setDataGuru}
-          />
+          /> */}
         </div>
 
         {/* Table */}
         <div className="overflow-x-auto">
-          <table ref={table} className="min-w-full border text-sm">
+          <table ref={table} className="min-w-full border border-gray-300 text-sm">
             <thead className="bg-gray-100">
               <tr>
                 <th className="px-4 py-2 text-left">No</th>
