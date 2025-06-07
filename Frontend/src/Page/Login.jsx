@@ -52,21 +52,22 @@ async function handleSubmit(e) {
       {/* Form */}
       <form
         onSubmit={handleSubmit}
-        className="relative z-10 bg-white/90 backdrop-blur-sm p-10 rounded-xl max-w-md w-full shadow-xl space-y-5"
+        className="relative z-10 bg-white/70 backdrop-blur-sm p-10 rounded-4xl max-w-md w-full shadow-xl space-y-5"
       >
         <div className="text-center text-[#1D3D4C]">
           <h2 className="text-3xl font-bold leading-tight">Selamat Datang</h2>
-          <h2 className="text-3xl font-bold leading-tight">Di Buku Tamu</h2>
+          <h2 className="text-3xl font-bold leading-tight mt-2.5">Di Buku Tamu Digital</h2>
         </div>
 
         {/* Username */}
+        <label className="text-japanese-indigo font-semibold pl-3.5 block w-full mb-1">Nama</label>
         <div className="relative">
           <Mail className="absolute left-3 top-3.5 text-gray-400 w-5 h-5" />
           <input
             type="text"
             name="username"
             placeholder="Masukkan Pengguna"
-            className="pl-10 pr-4 py-3 text-base border rounded-full w-full focus:outline-none shadow-sm"
+            className="bg-white pl-10 pr-4 py-3 text-base border border-gray-300 rounded-full w-full focus:outline-none shadow-sm"
             value={formData.username}
             onChange={(e) =>
               setFormData({ ...formData, username: e.target.value })
@@ -76,13 +77,14 @@ async function handleSubmit(e) {
         </div>
 
         {/* Password */}
+        <label className="text-japanese-indigo font-semibold pl-3.5 block w-full mb-1">Sandi</label>
         <div className="relative">
           <Lock className="absolute left-3 top-3.5 text-gray-400 w-5 h-5" />
           <input
             type={showPassword ? "text" : "password"}
             name="password"
             placeholder="Masukkan Kata Sandi"
-            className="pl-10 pr-10 py-3 text-base border rounded-full w-full focus:outline-none shadow-sm"
+            className="bg-white pl-10 pr-10 py-3 text-base border border-gray-300 rounded-full w-full focus:outline-none shadow-sm"
             value={formData.password}
             onChange={(e) =>
               setFormData({ ...formData, password: e.target.value })

@@ -68,6 +68,13 @@ export default function NotifikasiGuru() {
     title="Dashboard Guru"
     showDate={true}
     className="relative min-h-screen flex bg-gray-50"
+    style={{
+      backgroundImage: "url('/Notifikasi.png')",
+      backgroundAttachment: "fixed",
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "cover",
+      backgroundPosition: "center"
+    }}
     linklist={activeLink("/notifikasi-guru")}
   >
     <main className="flex-1 p-3.5 pt-7 px-6 max-w-[1700px] m-auto">

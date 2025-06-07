@@ -96,6 +96,7 @@ export default function TambahJanjiTemu() {
     title="Dashboard Guru"
     showDate={true}
     className="relative min-h-screen flex bg-gray-50"
+    style={{ backgroundImage: "url('/TambahJanjiTemu.png')" }}
     linklist={activeLink("/tambah-janji")}
   >
     <main className="flex-1 p-3.5 pt-7 px-6 max-w-[1700px] m-auto">
