@@ -76,7 +76,7 @@ export default function SidebarLayout({ title, showLogo, showDate, linklist, chi
         {!!(showLogo && typeof showLogo === "boolean")&&<div className="w-full h-[155px] my-3 mb-5">
           <img src="/logo.png" className="w-full h-full object-contain"/>
         </div>}
-        {!!(title && typeof title === "string")&&<h1 className="text-white text-3xl font-semibold mb-4.5">{title}</h1>}
+        {!!(title && typeof title === "string")&&<h1 className="text-white text-3xl font-semibold mb-4.5 text-center">{title}</h1>}
         {!!(showDate && typeof showDate === "boolean")&&<div className="bg-japanese-indigo-primary p-3 px-4.5 mb-4.5 rounded-md">
           <p className="text-white text-lg font-semibold">{`Selamat datang, ${symbolicName}`}</p>
           <p className="text-white/80 text-sm mt-0.5">{String(dateFormat)}</p>

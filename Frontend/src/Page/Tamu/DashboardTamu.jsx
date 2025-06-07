@@ -144,7 +144,7 @@ export default function DashboardTamu() {
   // }
 
   return (
-    <div className="px-6 py-10 bg-white min-h-screen">
+    <div className="px-6 py-10 bg-white min-h-screen" style={{ backgroundImage: "url('/DashboardGuru.png')" }}>
       <h1 className="text-2xl font-bold mb-6">Riwayat Pertemuan </h1>
       {data.length === 0 ? (
         <p className="text-gray-500">Tidak ada riwayat pertemuan</p>

@@ -13,11 +13,11 @@ export default function DashboardAdmin() {
     title="Dashboard Admin"
     showDate={false}
     showLogo={true}
-    className="relative min-h-screen flex bg-gray-50"
+    className="relative min-h-screen flex"
     linklist={activeLink("/dashboard-admin")}
   >
     <main className="w-full p-3.5 pt-1 px-6 max-w-[1700px] m-auto">
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-6" style={{ backgroundImage: "url('/Datatamu.png')" }}>
         <Header />
         <StatistikData />
         <BarChart />

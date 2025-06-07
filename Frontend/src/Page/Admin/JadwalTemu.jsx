@@ -10,6 +10,13 @@ export default function JadwalTemu() {
     showDate={false}
     showLogo={true}
     className="relative min-h-screen flex bg-gray-50"
+    style={{
+      backgroundImage: "url('/Admin.png')",
+      backgroundAttachment: "fixed",
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "cover",
+      backgroundPosition: "center"
+    }}
     linklist={activeLink("/jadwal-temu")}
   >
     <main className="w-full p-3.5 pt-6 px-6 max-w-[1700px] m-auto">
